@@ -54,7 +54,7 @@ export default function BasicTable() {
             console.log('error: ' + error)
         })
 
-    }, [])
+    }, [setTodos])
 
     const handleDelete = (id) => {
         setIsDeleting(true);

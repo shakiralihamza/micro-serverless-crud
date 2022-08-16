@@ -27,7 +27,7 @@ export default function EditTodoDialog() {
     useEffect(() => {
         setTodo(todoToEdit.item);
         setAuthor(todoToEdit.author);
-    },[isEditDialogOpen]);
+    },[isEditDialogOpen, todoToEdit.author, todoToEdit.item]);
     const handleSubmit = () => {
         setIsLoading(true);
         const updatedTodo = {
