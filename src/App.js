@@ -6,6 +6,7 @@ import AddTodo from "./components/AddTodo";
 import AddTodoDialog from "./components/AddTodoDialog";
 import {MyContext} from "./context/MyContext";
 import {useState} from "react";
+import EditTodoDialog from "./components/EditTodoDialog";
 
 const theme = createTheme({
     palette: {
@@ -18,6 +19,7 @@ const theme = createTheme({
 function App() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+    const [todoToEdit, setTodoToEdit] = useState({}); //values to populate textFields when editing todo
     const [todos, setTodos] = useState([]);
 
     const contextValues ={
@@ -26,7 +28,9 @@ function App() {
         isEditDialogOpen,
         setIsEditDialogOpen,
         todos,
-        setTodos
+        setTodos,
+        todoToEdit,
+        setTodoToEdit
     }
     return (
         <>
@@ -36,6 +40,7 @@ function App() {
                     <Header/>
                     <AddTodo/>
                     <AddTodoDialog/>
+                    <EditTodoDialog/>
                     <List/>
                 </ThemeProvider>
             </MyContext.Provider>

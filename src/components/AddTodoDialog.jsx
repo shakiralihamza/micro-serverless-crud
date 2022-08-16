@@ -20,7 +20,7 @@ function createTodo(data) {
 export default function AddTodoDialog() {
     const [todo, setTodo] = React.useState('');
     const [author, setAuthor] = React.useState('');
-    const {todos, setTodos} = useContext(MyContext);
+    const {todos, setTodos, isDialogOpen, setIsDialogOpen} = useContext(MyContext);
     //state loading
     const [isLoading, setIsLoading] = React.useState(false);
     const handleSubmit = () => {
@@ -44,7 +44,6 @@ export default function AddTodoDialog() {
                 console.log('API error', error)
             })
     }
-    const {isDialogOpen, setIsDialogOpen} = useContext(MyContext);
 
     const handleClose = () => {
         setIsDialogOpen(false);
@@ -62,7 +61,7 @@ export default function AddTodoDialog() {
                         <Grid container sx={{height: '300px'}} direction={'column'} justifyContent={'space-between'}>
                             <Grid item xs={2}>
                                 <Typography variant={'h5'} fontWeight={100}>
-                                    Add New Item
+                                    Add New ToDo
                                 </Typography>
                             </Grid>
                             <Grid item xs={2}>
@@ -70,8 +69,7 @@ export default function AddTodoDialog() {
                                     <Stack spacing={2}>
                                         <Button fullWidth variant={'outlined'} disabled={isLoading} color={"secondary"}
                                                 onClick={handleClose}>Cancel</Button>
-                                        {/*<Button fullWidth variant={'contained'} color={"secondary"}
-                                                onClick={handleSubmit}>Add</Button>*/}
+
                                         <LoadingButton
                                             fullWidth
                                             color="secondary"

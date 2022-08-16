@@ -9,10 +9,9 @@ const client = new Client({
 
 const handler = async (event) => {
   const data = JSON.parse(event.body)
-  const { id } = event
-  console.log(`Function 'update' invoked. update id: ${id}`)
+  console.log(`Function 'update' invoked. update id: ${data.id}`)
   try {
-    const response = await client.query(query.Update(query.Ref(query.Collection('items'), id), { data }))
+    const response = await client.query(query.Update(query.Ref(query.Collection('todos'), data.id), { data }))
     console.log('success', response)
     return {
       statusCode: 200,

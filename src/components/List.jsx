@@ -23,12 +23,22 @@ const deleteTodo = (todoId) => {
         return response.json()
     })
 }
+const updateTodo = (updatedTodo) => {
+    return fetch('/.netlify/functions/update', {
+        body: JSON.stringify(updatedTodo),
+        method: 'POST',
+    }).then(response => {
+        return response.json()
+    })
+}
 
 export default function BasicTable() {
-    const {todos, setTodos} = useContext(MyContext);
+    const {todos, setTodos, setIsEditDialogOpen, setTodoToEdit} = useContext(MyContext);
     const [isLoading, setIsLoading] = useState(true);
     const [isDeleting, setIsDeleting] = useState(false);
+    const [isCompleting, setIsCompleting] = useState(false);
     const [deletingId, setDeletingId] = useState('');
+    const [completingId, setCompletingId] = useState('');
 
     useEffect(() => {
         fetch('/.netlify/functions/read-all')
@@ -61,6 +71,33 @@ export default function BasicTable() {
                 console.log('API error', error)
             })
     }
+    const handleDone = (todo) => {
+        setIsCompleting(true);
+        setCompletingId(todo.id)
+        const updatedTodo = {
+            ...todo,
+            completed: !todo.completed
+        }
+        updateTodo(updatedTodo)
+            .then((response) => {
+                console.log('Update API response', response)
+                // set app state
+                setIsCompleting(false);
+                setCompletingId('');
+                //update todo in state
+                const newTodos = todos.map(todo => todo.id === response.data.id ? response.data : todo)
+                setTodos(newTodos)
+            })
+            .catch((error) => {
+                console.log('API error', error)
+            })
+    }
+
+    const handleEdit =(todo)=>{
+        setTodoToEdit(todo);
+        setIsEditDialogOpen(true);
+
+    }
     if (isLoading) {
         return <>
             <Box sx={{display: 'flex', pl: 5}}>
@@ -81,53 +118,60 @@ export default function BasicTable() {
                 </TableHead>
                 <TableBody>
                     {todos.map((todo) => {
-                        return (<TableRow
-                            key={todo.id}
-                            sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                            hover
-                            // onClick={(event) => handleClick(event, todo.item)}
-                            role="checkbox"
-                            tabIndex={-1}
-                            selected={todo.completed}
-                        >
-                            <TableCell padding="checkbox">
-                                <Checkbox
-                                    color="primary"
-                                    checked={todo.completed}
-                                />
-                            </TableCell>
-                            <TableCell>
-                                {todo.item}
-                            </TableCell>
-                            <TableCell align="left">{todo.author}</TableCell>
-                            <TableCell align="right">
-                                <IconButton
-                                    disableRipple
-                                    size="small"
-                                    color="primary"
-                                >
-                                    <EditIcon/>
-                                </IconButton>
-                                <IconButton
-                                    onClick={() => handleDelete(todo.id)}
-                                    disableRipple
-                                    size="medium"
-                                    sx={{color: 'secondary.main'}}
-                                >
-
+                        return (
+                            <TableRow
+                                key={todo.id}
+                                sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                                hover
+                                role="checkbox"
+                                tabIndex={-1}
+                                selected={todo.completed}
+                            >
+                                <TableCell padding="checkbox">
                                     {
-                                        isDeleting && todo.id === deletingId
-                                            ? <CircularProgress color={'secondary'} size={24}/>
-                                            : <DeleteForeverIcon/>
+                                        isCompleting && todo.id === completingId
+                                            ? <CircularProgress color={'primary'} size={18} sx={{ml:1.5}}/>
+                                            :
+                                            <Checkbox
+                                                onClick={() => handleDone(todo)}
+                                                color="primary"
+                                                checked={todo.completed}
+                                            />
                                     }
-                                </IconButton>
-                            </TableCell>
-                        </TableRow>)
+                                </TableCell>
+                                <TableCell>
+                                    {todo.item}
+                                </TableCell>
+                                <TableCell align="left">{todo.author}</TableCell>
+                                <TableCell align="right">
+                                    <IconButton
+                                        disableRipple
+                                        size="small"
+                                        onClick={() => handleEdit(todo)}
+                                        color="primary"
+                                    >
+                                        <EditIcon/>
+                                    </IconButton>
+                                    <IconButton
+                                        onClick={() => handleDelete(todo.id)}
+                                        disableRipple
+                                        size="medium"
+                                        sx={{color: 'secondary.main'}}
+                                    >
+
+                                        {
+                                            isDeleting && todo.id === deletingId
+                                                ? <CircularProgress color={'secondary'} size={24}/>
+                                                : <DeleteForeverIcon/>
+                                        }
+                                    </IconButton>
+                                </TableCell>
+                            </TableRow>)
                     })}
                 </TableBody>
             </Table>
         </TableContainer>);
     } else {
-        return <Typography variant={'body1'} sx={{pl: 5}}>No todos added yet</Typography>
+        return <Typography variant={'body1'} sx={{pl: 5}}>No todos found</Typography>
     }
 }
