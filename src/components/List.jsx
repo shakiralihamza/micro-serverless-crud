@@ -135,7 +135,6 @@ export default function BasicTable() {
                                             <Checkbox
                                                 onClick={() => handleDone(todo)}
                                                 sx={{
-                                                    color: 'primary.light',
                                                     '&.Mui-checked': {
                                                         color: 'primary.light',
                                                     },
