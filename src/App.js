@@ -1,5 +1,4 @@
 import Header from "./components/Header";
-import {indigo, purple} from "@mui/material/colors";
 import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
 import List from "./components/List";
 import AddTodo from "./components/AddTodo";
@@ -11,8 +10,14 @@ import EditTodoDialog from "./components/EditTodoDialog";
 const theme = createTheme({
     palette: {
         mode: 'dark',
-        primary: indigo,
-        secondary: purple
+        primary: {
+            light: '#3f4ab0',
+            main: '#1A227D',
+            dark: '#030741',
+        },
+        secondary: {
+            main: '#B4009D'
+        }
     }
 })
 
