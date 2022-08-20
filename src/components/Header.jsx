@@ -9,7 +9,7 @@ import AppsIcon from '@mui/icons-material/Apps';
 export default function Header() {
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" sx={{backgroundColor:'primary.dark'}}>
+            <AppBar position="static" sx={{backgroundColor:'primary.main'}}>
                 <Toolbar sx={{height:'80px'}} disableGutters>
                     <IconButton
                         disableRipple
@@ -17,7 +17,7 @@ export default function Header() {
                         edge="start"
                         color="inherit"
                         aria-label="menu"
-                        sx={{ml:0,mr:3, backgroundColor:'primary.main', borderRadius:0, height:'80px', width:'80px' }}
+                        sx={{ml:0,mr:3, backgroundColor:'primary.light', borderRadius:0, height:'80px', width:'80px' }}
                     >
                         <AppsIcon fontSize={'large'} />
                     </IconButton>

@@ -93,7 +93,7 @@ export default function BasicTable() {
             })
     }
 
-    const handleEdit =(todo)=>{
+    const handleEdit = (todo) => {
         setTodoToEdit(todo);
         setIsEditDialogOpen(true);
 
@@ -101,7 +101,7 @@ export default function BasicTable() {
     if (isLoading) {
         return <>
             <Box sx={{display: 'flex', pl: 5}}>
-                <CircularProgress/>
+                <CircularProgress sx={{color: 'primary.light'}}/>
             </Box>
         </>
     }
@@ -130,11 +130,16 @@ export default function BasicTable() {
                                 <TableCell padding="checkbox">
                                     {
                                         isCompleting && todo.id === completingId
-                                            ? <CircularProgress color={'primary'} size={18} sx={{ml:1.5}}/>
+                                            ? <CircularProgress sx={{color: 'primary.light', ml: 1.5}} size={18}/>
                                             :
                                             <Checkbox
                                                 onClick={() => handleDone(todo)}
-                                                color="primary"
+                                                sx={{
+                                                    color: 'primary.light',
+                                                    '&.Mui-checked': {
+                                                        color: 'primary.light',
+                                                    },
+                                                }}
                                                 checked={todo.completed}
                                             />
                                     }
@@ -148,7 +153,7 @@ export default function BasicTable() {
                                         disableRipple
                                         size="small"
                                         onClick={() => handleEdit(todo)}
-                                        color="primary"
+                                        sx={{color: 'primary.light'}}
                                     >
                                         <EditIcon/>
                                     </IconButton>

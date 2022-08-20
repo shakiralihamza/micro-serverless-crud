@@ -16,7 +16,7 @@ export default function AddTodo() {
     };
     return (
         <Box sx={{flexGrow: 1, mb:3}}>
-            <AppBar position="static" sx={{backgroundColor: '#0C1251'}}>
+            <AppBar position="static" sx={{backgroundColor: 'primary.dark'}}>
                 <Toolbar sx={{height: '80px'}} disableGutters>
                     <Box sx={{flexGrow: 1}}/>
                     <Paper elevation={3} sx={{mt: 5,height:'80px',width:'80px',backgroundColor:'transparent'}}>
