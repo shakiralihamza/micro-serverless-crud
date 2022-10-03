@@ -27,7 +27,7 @@ export default function EditTodoDialog() {
     useEffect(() => {
         setTodo(todoToEdit.item);
         setAuthor(todoToEdit.author);
-    },[isEditDialogOpen, todoToEdit.author, todoToEdit.item]);
+    }, [isEditDialogOpen, todoToEdit.author, todoToEdit.item]);
     const handleSubmit = () => {
         setIsLoading(true);
         const updatedTodo = {
@@ -63,17 +63,41 @@ export default function EditTodoDialog() {
                       alignItems={'stretch'}
                       sx={{h: '100%', width: '100%'}}
                 >
-                    <Grid item xs={5} sx={{backgroundColor: '#0C1251', p: 5}}>
+                    <Grid item xs={12} sm={5} sx={{backgroundColor: '#0C1251', p: 5}}>
                         <Grid container sx={{height: '300px'}} direction={'column'} justifyContent={'space-between'}>
                             <Grid item xs={2}>
                                 <Typography variant={'h5'} fontWeight={100}>
                                     Edit Todo
                                 </Typography>
                             </Grid>
+                            <Grid item>
+                                <Stack spacing={2}>
+                                    <TextField
+                                        disabled={isLoading}
+                                        value={todo}
+                                        variant={"outlined"}
+                                        label="Todo Item"
+                                        onChange={(e) => setTodo(e.target.value)}
+                                    />
+                                    <TextField
+                                        disabled={isLoading}
+                                        value={author}
+                                        variant={"outlined"}
+                                        label="Author"
+                                        onChange={(e) => setAuthor(e.target.value)}
+                                    />
+                                </Stack>
+                            </Grid>
                             <Grid item xs={2}>
                                 <Typography variant={'h5'} fontWeight={100}>
                                     <Stack spacing={2}>
-                                        <Button fullWidth variant={'outlined'} disabled={isLoading} color={"secondary"}
+                                        <Button fullWidth variant={'outlined'}
+                                                sx={{display: {xs: 'none', sm: 'initial'}}} disabled={isLoading}
+                                                color={"secondary"}
+                                                onClick={handleClose}>Cancel</Button>
+                                        <Button fullWidth variant={'contained'}
+                                                sx={{display: {xs: 'initial', sm: 'none'}}} disabled={isLoading}
+                                                color={"secondary"}
                                                 onClick={handleClose}>Cancel</Button>
                                         <LoadingButton
                                             fullWidth
@@ -90,7 +114,8 @@ export default function EditTodoDialog() {
                         </Grid>
 
                     </Grid>
-                    <Grid item xs={7} sx={{backgroundColor: 'primary.dark', p: 5}}>
+                    <Grid item xs={7}
+                          sx={{backgroundColor: 'primary.dark', p: 5, display: {xs: 'none', sm: 'initial'}}}>
                         <Stack spacing={5}>
                             <TextField
                                 disabled={isLoading}
